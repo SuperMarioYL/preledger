@@ -51,10 +51,11 @@ type Payload struct {
 	ToolResponse   json.RawMessage `json:"tool_response"`
 }
 
-// editInput carries the tool_input keys the capture path understands; unknown
+// EditInput carries the tool_input keys the capture path understands; unknown
 // keys are ignored by encoding/json, so payloads from other tool versions
-// still parse.
-type editInput struct {
+// still parse. It is exported so the CLI can hand the same parsed input to
+// internal/extract without re-parsing the payload schema.
+type EditInput struct {
 	FilePath   string `json:"file_path"`
 	OldString  string `json:"old_string"`
 	NewString  string `json:"new_string"`
@@ -118,7 +119,7 @@ func Capture(p Payload, baseDir string) ([]ledger.Assumption, error) {
 	if p.ToolName != ToolEdit && p.ToolName != ToolWrite {
 		return nil, nil
 	}
-	var in editInput
+	var in EditInput
 	if len(p.ToolInput) > 0 {
 		if err := json.Unmarshal(p.ToolInput, &in); err != nil {
 			return nil, fmt.Errorf("parse tool_input for %s: %w", p.ToolName, err)
@@ -153,7 +154,7 @@ func Capture(p Payload, baseDir string) ([]ledger.Assumption, error) {
 // editStatement states the premise every Edit call makes: the text being
 // replaced exists in the file, and is unique in it unless replace_all is set
 // (otherwise the Edit itself fails).
-func editStatement(file string, in editInput) string {
+func editStatement(file string, in EditInput) string {
 	quote := snippet(in.OldString)
 	if in.ReplaceAll {
 		return fmt.Sprintf("%s 的现有内容包含待替换片段：%s", file, quote)
