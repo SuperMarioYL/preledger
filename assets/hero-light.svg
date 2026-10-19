@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-label="Preledger 品牌主视觉：编辑事件汇入假设台账" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8">
+  <defs>
+    <style>
+    text { font-family: -apple-system,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; }
+    .mono { font-family: ui-monospace,'SF Mono',Menlo,Consolas,'Cascadia Mono',monospace; }
+    @media (prefers-reduced-motion: no-preference) {
+      .flow { stroke-dasharray: 5 7; animation: plflow 1.4s linear infinite; }
+      .flow.slow { animation-duration: 2.6s; }
+      @keyframes plflow { to { stroke-dashoffset: -24; } }
+      .breathe { animation: plbreathe 3.2s ease-in-out infinite; }
+      .breathe.d1 { animation-delay: -1.1s; } .breathe.d2 { animation-delay: -2.2s; }
+      @keyframes plbreathe { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+      .drift { animation: pldrift 5s ease-in-out infinite; }
+      .drift.d1 { animation-delay: -1.6s; } .drift.d2 { animation-delay: -3.3s; }
+      @keyframes pldrift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      .orbit { animation: plorbit 46s linear infinite; transform-origin: 480.0 280.0; }
+      .orbit.rev { animation-duration: 70s; animation-direction: reverse; }
+      @keyframes plorbit { to { transform: rotate(360deg); } }
+      .travel { animation: pltravel 3.4s linear infinite; }
+      .travel.t2 { animation-delay: -1.1s; } .travel.t3 { animation-delay: -2.2s; } .travel.t4 { animation-delay: -0.6s; } .travel.t5 { animation-delay: -1.7s; }
+      @keyframes pltravel {
+        0% { offset-distance: 0%; opacity: 0; }
+        8% { opacity: 1; } 92% { opacity: 1; }
+        100% { offset-distance: 100%; opacity: 0; }
+      }
+      .glowpulse { animation: plglow 4s ease-in-out infinite; }
+      @keyframes plglow { 0%,100% { opacity: .5; } 50% { opacity: .95; } }
+    }
+
+    </style>
+    <filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="lineglow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="bgGlow" cx="62%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#357c8e" stop-opacity="0.10"/>
+      <stop offset="55%" stop-color="#5670bb" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#f9fdfe" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#357c8e"/>
+      <stop offset="100%" stop-color="#5670bb"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7fcfe"/>
+      <stop offset="100%" stop-color="#f9fdfe"/>
+    </linearGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#cbeef7" stroke-opacity="0.55" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="560" fill="#f9fdfe"/>
+  <rect width="960" height="560" fill="url(#bgGlow)"/>
+<text x="64" y="92" font-size="46" fill="#132630" text-anchor="start" font-weight="700">Preledger</text>
+<text x="66" y="126" font-size="20" fill="#357c8e" text-anchor="start" font-weight="600">编辑时记录假设 · 评审时逐条证伪 · 证伪即测试</text>
+<text x="66" y="152" font-size="13.5" fill="#557588" text-anchor="start">An assumption ledger for coding-agent edits — reviewed locally, refuted into failing tests.</text>
+<rect x="64" y="172" width="96" height="24" rx="12" fill="#f9fdfe" stroke="#cbeef7" stroke-width="1.4"/>
+<text x="112" y="188" font-size="12" fill="#557588" text-anchor="middle" class="mono">v0.1 · MIT</text>
+<rect x="64" y="268" width="190" height="44" rx="10" fill="#f7fcfe" stroke="#cbeef7" stroke-width="1.4"/>
+<text x="82" y="295" font-size="14.5" fill="#132630" text-anchor="start" class="mono">Edit · main.go</text>
+<circle cx="238" cy="290" r="4" fill="#357c8e" class="breathe"/>
+<rect x="64" y="348" width="190" height="44" rx="10" fill="#f7fcfe" stroke="#cbeef7" stroke-width="1.4"/>
+<text x="82" y="375" font-size="14.5" fill="#132630" text-anchor="start" class="mono">Write · README.md</text>
+<circle cx="238" cy="370" r="4" fill="#357c8e" class="breathe"/>
+<rect x="64" y="428" width="190" height="44" rx="10" fill="#f7fcfe" stroke="#cbeef7" stroke-width="1.4"/>
+<text x="82" y="455" font-size="14.5" fill="#132630" text-anchor="start" class="mono">Edit · server.go</text>
+<circle cx="238" cy="450" r="4" fill="#357c8e" class="breathe"/>
+<g filter="url(#lineglow)">
+<path d="M254 290 C 330 290 360 300 430 306" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<path d="M254 370 C 330 370 360 340 430 330" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<path d="M254 450 C 330 450 360 380 430 354" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+</g>
+<path id="h40268102" d="M254 290 C 330 290 360 300 430 306" fill="none" stroke="none"/>
+<circle cx="264" cy="285" r="3.4" fill="#567a75" class="travel"/>
+<circle cx="264" cy="285" r="3.4" fill="#567a75" class="travel t2"/>
+<path id="h30358022" d="M254 370 C 330 370 360 340 430 330" fill="none" stroke="none"/>
+<circle cx="264" cy="365" r="3.4" fill="#567a75" class="travel"/>
+<circle cx="264" cy="365" r="3.4" fill="#567a75" class="travel t2"/>
+<path id="h48594977" d="M254 450 C 330 450 360 380 430 354" fill="none" stroke="none"/>
+<circle cx="264" cy="445" r="3.4" fill="#567a75" class="travel"/>
+<circle cx="264" cy="445" r="3.4" fill="#567a75" class="travel t2"/>
+<rect x="430" y="236" width="466" height="250" rx="14" fill="url(#panelGrad)" stroke="#357c8e" stroke-width="1.6"/>
+<text x="456" y="272" font-size="16" fill="#132630" text-anchor="start" font-weight="600" class="mono">.preledger/ledger.jsonl</text>
+<text x="872" y="272" font-size="12.5" fill="#557588" text-anchor="end" class="mono">append-only</text>
+<line x1="456" y1="288" x2="872" y2="288" stroke="#cbeef7" stroke-width="1"/>
+<circle cx="466" cy="313" r="5.5" fill="#d29922" class="breathe"/>
+<text x="484" y="318" font-size="15.5" fill="#132630" text-anchor="start" class="mono">config.yaml 存在且含 server.port</text>
+<text x="484" y="340" font-size="12.5" fill="#d29922" text-anchor="start">待定</text>
+<line x1="456" y1="352" x2="872" y2="352" stroke="#cbeef7" stroke-opacity="0.6" stroke-width="1"/>
+<circle cx="466" cy="365" r="5.5" fill="#3fb950" class="breathe"/>
+<text x="484" y="370" font-size="15.5" fill="#132630" text-anchor="start" class="mono">go.mod 存在且含 github.com/pkg/errors</text>
+<text x="484" y="392" font-size="12.5" fill="#3fb950" text-anchor="start">已确认</text>
+<line x1="456" y1="404" x2="872" y2="404" stroke="#cbeef7" stroke-opacity="0.6" stroke-width="1"/>
+<circle cx="466" cy="417" r="5.5" fill="#f85149" class="breathe"/>
+<text x="484" y="422" font-size="15.5" fill="#132630" text-anchor="start" class="mono">README.md 存在</text>
+<text x="484" y="444" font-size="12.5" fill="#f85149" text-anchor="start">已证伪</text>
+<text x="560" y="444" font-size="12.5" fill="#557588" text-anchor="start" class="mono">→ preledger_refute_…_test.go</text>
+<text x="456" y="472" font-size="12.5" fill="#557588" text-anchor="start">依据：编辑前转录原话 · 证伪编译为仓库内失败测试</text>
+<g opacity="0.5"><path d="M64 512 H 896" fill="none" stroke="#cbeef7" stroke-width="1.6" class="flow"/></g>
+</svg>

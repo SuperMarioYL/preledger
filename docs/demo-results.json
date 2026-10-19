@@ -1,0 +1,169 @@
+{
+  "product": "preledger",
+  "version": "0.1.0",
+  "recorded_at": "2026-10-20",
+  "environment": {
+    "go": "go version go1.24.1 darwin/arm64",
+    "os": "Darwin arm64",
+    "harness": "Claude Code PostToolUse hook 载荷与真实结构一致（tool_name / tool_input 为已验证字段；session_id、transcript_path、tool_response 为文档化但未验证字段，全部按可选处理）"
+  },
+  "scenario": "在样例 Go 仓库接入 hook，模拟 coding agent 的三次编辑，评审者在本地界面逐条评审，证伪其中一条假设并看着测试先红后绿。",
+  "input": {
+    "sample_repo": "examples/demo/setup.sh 生成的最小 Go 服务（module sample），config.yaml 缺失",
+    "harness_payloads": "examples/demo/setup.sh 生成的三段 PostToolUse 载荷（p1/p2/p3.json），与 Claude Code 写入 hook stdin 的结构一致；转录摘录含编辑前助手原话"
+  },
+  "steps": [
+    {
+      "step": "preledger install（仓库根目录）",
+      "output": "已接入 Claude Code hook：/tmp/plresults/demo/.claude/settings.json (PostToolUse: Edit|Write)\n台账目录：/tmp/plresults/demo/.preledger\n下一步：让 Claude Code 正常编辑，然后运行 preledger up 评审假设"
+    },
+    {
+      "step": "preledger hook < p1.json && preledger hook < p2.json && preledger hook < p3.json（hook 由 Claude Code 自动调用；演示中直接喂入同构载荷）"
+    },
+    {
+      "step": "查看 .preledger/ledger.jsonl",
+      "output": "- main.go 的现有内容中待替换片段存在且唯一：package main import \"fmt\" func main() { fmt.Println(\"sample service\") }\n - config.yaml 存在且含 server.port\n - main.go 的现有内容中待替换片段存在且唯一：func main() { fmt.Println(\"sample service on\", readPort()) }\n - .env 存在且含 API_TOKEN\n - README.md 将被整体重写，旧内容全部废弃\n - README.md 存在"
+    },
+    {
+      "step": "preledger up --no-open（默认自动打开浏览器）",
+      "output": "台账：/tmp/plresults/demo/.preledger/ledger.jsonl（6 条假设）\n评审界面已启动：http://127.0.0.1:7830（Ctrl-C 退出）\n评审界面已关闭"
+    },
+    {
+      "step": "评审界面点击「证伪」（等价于界面的 POST /api/assumptions/{id}/refute）",
+      "output": "证伪: config.yaml 存在且含 server.port\n失败测试: preledger_refute_d0cb1f3e9e449e41_test.go\n测试名: TestPreledgerAssumption_d0cb1f3e9e449e41"
+    },
+    {
+      "step": "go test ./...",
+      "output": "--- FAIL: TestPreledgerAssumption_d0cb1f3e9e449e41 (0.00s)\n    preledger_refute_d0cb1f3e9e449e41_test.go:20: preledger 假设 d0cb1f3e9e449e41：前提「config.yaml 存在且含 server.port」未成立：config.yaml 应存在：open config.yaml: no such file or directory\nFAIL\nFAIL\tsample\t0.341s\nFAIL"
+    },
+    {
+      "step": "修复：创建 config.yaml（server.port: 8080）后 go test ./...",
+      "output": "ok  \tsample\t0.137s"
+    }
+  ],
+  "ledger_after_capture": [
+    {
+      "id": "302fe75c28571676",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a1",
+        "tool": "Edit",
+        "file": "main.go",
+        "hunk": "@@ -1,7 +1,22 @@"
+      },
+      "statement": "main.go 的现有内容中待替换片段存在且唯一：package main import \"fmt\" func main() { fmt.Println(\"sample service\") }",
+      "basis": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"sample service\")\n}\n",
+      "status": "open"
+    },
+    {
+      "id": "d0cb1f3e9e449e41",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a1",
+        "tool": "Edit",
+        "file": "main.go",
+        "hunk": "@@ -1,7 +1,22 @@"
+      },
+      "statement": "config.yaml 存在且含 server.port",
+      "basis": "配置文件还不存在，我会假定 config.yaml 存在且含 server.port，先写读取逻辑。",
+      "status": "open"
+    },
+    {
+      "id": "a263a89caad6b497",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a2",
+        "tool": "Edit",
+        "file": "main.go",
+        "hunk": "@@ -7,3 +7,7 @@"
+      },
+      "statement": "main.go 的现有内容中待替换片段存在且唯一：func main() { fmt.Println(\"sample service on\", readPort()) }",
+      "basis": "func main() {\n\tfmt.Println(\"sample service on\", readPort())\n}\n",
+      "status": "open"
+    },
+    {
+      "id": "b872a0f2ae96b26c",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a2",
+        "tool": "Edit",
+        "file": "main.go",
+        "hunk": "@@ -7,3 +7,7 @@"
+      },
+      "statement": ".env 存在且含 API_TOKEN",
+      "basis": "端口读取写好了。密钥我假定仓库里已经配置了 API_TOKEN。",
+      "status": "open"
+    },
+    {
+      "id": "f3553d0f32af44b9",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a3",
+        "tool": "Write",
+        "file": "README.md"
+      },
+      "statement": "README.md 将被整体重写，旧内容全部废弃",
+      "basis": "# sample service\n\n演示仓库：验证 Preledger 的假设台账。\n",
+      "status": "open"
+    },
+    {
+      "id": "804108adaf2e60b7",
+      "edit_ref": {
+        "session_id": "s1-demo-session",
+        "transcript_path": "/tmp/plresults/demo-files/transcript-s1.jsonl",
+        "tool_use_id": "toolu_a3",
+        "tool": "Write",
+        "file": "README.md"
+      },
+      "statement": "README.md 存在",
+      "basis": "?? README.md",
+      "status": "open"
+    }
+  ],
+  "api_state_after_refute_and_fix": {
+    "counts": {
+      "confirmed": 0,
+      "open": 5,
+      "refuted": 1
+    },
+    "statuses": [
+      {
+        "statement": "main.go 的现有内容中待替换片段存在且唯一：package main import \"fmt\" func main() { fmt.Println(\"sample service\") }",
+        "status": "open"
+      },
+      {
+        "statement": "main.go 的现有内容中待替换片段存在且唯一：func main() { fmt.Println(\"sample service on\", readPort()) }",
+        "status": "open"
+      },
+      {
+        "statement": ".env 存在且含 API_TOKEN",
+        "status": "open"
+      },
+      {
+        "statement": "README.md 将被整体重写，旧内容全部废弃",
+        "status": "open"
+      },
+      {
+        "statement": "README.md 存在",
+        "status": "open"
+      },
+      {
+        "statement": "config.yaml 存在且含 server.port",
+        "status": "refuted"
+      }
+    ]
+  },
+  "generated_refutation_test": "// Code generated by preledger. 重复证伪同一假设会覆盖本文件。\n//\n// 假设：config.yaml 存在且含 server.port\n// 依据（转录原文）：配置文件还不存在，我会假定 config.yaml 存在且含 server.port，先写读取逻辑。\n//\n// 评审者已将该假设标记为证伪。本测试断言前提成立：\n// 前提确实为假时套件变红，修复代码使其成立后转绿。\n\npackage main\n\nimport (\n\t\"os\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestPreledgerAssumption_d0cb1f3e9e449e41(t *testing.T) {\n\tdata, err := os.ReadFile(\"config.yaml\")\n\tif err != nil {\n\t\tt.Fatalf(\"preledger 假设 %s：前提「%s」未成立：%s 应存在：%v\", \"d0cb1f3e9e449e41\", \"config.yaml 存在且含 server.port\", \"config.yaml\", err)\n\t}\n\tif !strings.Contains(string(data), \"server.port\") {\n\t\tt.Fatalf(\"preledger 假设 %s：前提「%s」未成立：%s 中未找到 %s\", \"d0cb1f3e9e449e41\", \"config.yaml 存在且含 server.port\", \"config.yaml\", \"server.port\")\n\t}\n}",
+  "limitations": [
+    "捕获是启发式而非读心：只覆盖新依赖、缺失的配置/环境变量、git 判定的新路径三类前提，外加每次编辑自带的机械前提；其余前提需要评审者人工补充。",
+    "“存在且含”按字面子串检查（见 internal/refute 的语法说明）；如需结构化 YAML/JSON 校验，等待后续版本。",
+    "依赖前提的模块名按主机形态推测（github.com 取三段，其余两段），建议以 go mod tidy 的结果为准。",
+    "LLM triage 为可选项：未配置 PRELEDGER_TRIAGE_PROVIDER 时完全离线；配置后调用 DeepSeek/GLM 的 OpenAI 兼容端点，失败时保留全部候选。",
+    "仅支持 Claude Code 的 hook 与转录格式（MCP、其他代理适配器不在 v0.1 范围）。"
+  ]
+}

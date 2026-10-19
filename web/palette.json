@@ -1,0 +1,38 @@
+{
+  "mode": "auto",
+  "id": "56c9e6-6a8be7-acf6ea-e0897b892ae8",
+  "identity": "https://github.com/supermarioyl/preledger",
+  "primary": "#56c9e6",
+  "secondary": "#6a8be7",
+  "highlight": "#acf6ea",
+  "dark": {
+    "bg": "#050b12",
+    "panel": "#0c151f",
+    "code": "#0a151d",
+    "ink": "#eefdfb",
+    "muted": "#95b3c4",
+    "line": "#173541",
+    "primary": "#56c9e6",
+    "secondary": "#6a8be7",
+    "highlight": "#acf6ea",
+    "accent": "#56c9e6",
+    "buttonStart": "#378092",
+    "buttonEnd": "#5873c0",
+    "buttonText": "#ffffff"
+  },
+  "light": {
+    "bg": "#f9fdfe",
+    "panel": "#f7fcfe",
+    "code": "#f3fbfd",
+    "ink": "#132630",
+    "muted": "#557588",
+    "line": "#cbeef7",
+    "primary": "#357c8e",
+    "secondary": "#5670bb",
+    "highlight": "#567a75",
+    "accent": "#357c8e",
+    "buttonStart": "#378092",
+    "buttonEnd": "#5873c0",
+    "buttonText": "#ffffff"
+  }
+}
