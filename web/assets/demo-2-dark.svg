@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="244" viewBox="0 0 920 244" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8" role="img" aria-labelledby="dm2-d-t dm2-d-d"><title id="dm2-d-t">录制演示第 3 步</title><desc id="dm2-d-d">查看 .preledger/ledger.jsonl —— 命令与输出逐字来自 docs/demo-results.json</desc>
+<style>.dm2-dm{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}</style>
+<rect width="920" height="244" rx="14" fill="#0a151d" stroke="#173541" stroke-width="1"/>
+<rect x="0" y="0" width="920" height="40" rx="14" fill="#0c151f"/><rect x="0" y="26" width="920" height="14" fill="#0c151f"/>
+<circle cx="22" cy="20" r="5.5" fill="#56c9e6" opacity="0.85"/><circle cx="40" cy="20" r="5.5" fill="#6a8be7" opacity="0.85"/><circle cx="58" cy="20" r="5.5" fill="#acf6ea" opacity="0.85"/>
+<text x="80" y="24" font-size="11.5" fill="#95b3c4">Preledger · 3 / 7</text>
+<text x="28" y="66" class="dm2-dm" font-size="12.5" fill="#56c9e6">$ </text><text x="46" y="66" class="dm2-dm" font-size="12.5" fill="#eefdfb">查看 .preledger/ledger.jsonl</text>
+<text x="28" y="93" class="dm2-dm" font-size="12.5" fill="#95b3c4">- main.go 的现有内容中待替换片段存在且唯一：package main import &quot;fmt&quot; func main() { fmt.Println(&quot;sample service&quot;</text>
+<text x="28" y="112" class="dm2-dm" font-size="12.5" fill="#95b3c4">) }</text>
+<text x="28" y="131" class="dm2-dm" font-size="12.5" fill="#95b3c4"> - config.yaml 存在且含 server.port</text>
+<text x="28" y="150" class="dm2-dm" font-size="12.5" fill="#95b3c4"> - main.go 的现有内容中待替换片段存在且唯一：func main() { fmt.Println(&quot;sample service on&quot;, readPort()) }</text>
+<text x="28" y="169" class="dm2-dm" font-size="12.5" fill="#95b3c4"> - .env 存在且含 API_TOKEN</text>
+<text x="28" y="188" class="dm2-dm" font-size="12.5" fill="#95b3c4"> - README.md 将被整体重写，旧内容全部废弃</text>
+<text x="28" y="207" class="dm2-dm" font-size="12.5" fill="#95b3c4"> - README.md 存在</text>
+</svg>

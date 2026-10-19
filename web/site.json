@@ -2,5 +2,389 @@
   "schema": 3,
   "name": "Preledger",
   "github": "https://github.com/SuperMarioYL/preledger",
-  "palette": "auto"
+  "palette": "auto",
+  "lang": {
+    "primary": "zh",
+    "toggle": true
+  },
+  "meta": {
+    "visual_style": "neon-particle",
+    "content_baseline": "docs/demo-results.json",
+    "demo_source": "docs/demo-results.json",
+    "content_version": "1",
+    "source_version": "v0.1.0"
+  },
+  "hero": {
+    "eyebrow": {
+      "zh": "面向代码评审者的 Coding Agent 未验证假设台账",
+      "en": "An assumption ledger for reviewing coding agents"
+    },
+    "headline": {
+      "zh": "编辑时记录假设\n评审时逐条证伪，证伪即测试",
+      "en": "Assumptions logged at edit time\nRefuted one by one — each refutation becomes a test"
+    },
+    "sub": {
+      "zh": "Preledger 记录 Coding Agent 每一次编辑背后的未验证假设，生成随仓库走的假设台账；评审者在本地界面逐条确认或证伪，每条被证伪的假设自动编译成一个失败的测试。",
+      "en": "Preledger records the unverified assumptions behind every coding-agent edit into a ledger that lives with the repo; reviewers confirm or refute them one by one in a local UI, and every refuted assumption compiles into a failing test."
+    },
+    "href": "#quickstart",
+    "command": "go install github.com/SuperMarioYL/preledger@latest",
+    "cta": {
+      "zh": "开始使用",
+      "en": "Get started"
+    },
+    "ctaGithub": {
+      "zh": "在 GitHub 查看",
+      "en": "View on GitHub"
+    }
+  },
+  "advantages": [
+    {
+      "title": {
+        "zh": "捕获不打断编辑",
+        "en": "Capture never interrupts the edit"
+      },
+      "body": {
+        "zh": "preledger install 一次性把 PostToolUse 钩子接进 Claude Code；之后 agent 照常工作，每次 Edit/Write 都会被记录。捕获是启发式优先、完全离线的，LLM 分诊是可选项。",
+        "en": "preledger install wires a PostToolUse hook into Claude Code once; the agent then works as usual while every Edit/Write is recorded. Capture is heuristic-first and fully offline — LLM triage is optional."
+      },
+      "chips": [
+        "› preledger install",
+        "› PostToolUse · Edit|Write",
+        "› 离线启发式，失败也不阻塞编辑"
+      ]
+    },
+    {
+      "title": {
+        "zh": "台账随仓库走",
+        "en": "A ledger that lives with the repo"
+      },
+      "body": {
+        "zh": ".preledger/ledger.jsonl 是一个纯 append-only JSONL 文件，每条记录带编辑引用（会话、tool_use、文件、diff hunk）和依据原文。没有守护进程、没有数据库、没有云端，可以在 git 里 diff。",
+        "en": ".preledger/ledger.jsonl is a pure append-only JSONL file; every entry carries an edit reference (session, tool_use, file, diff hunk) and the basis verbatim. No daemon, no database, no cloud — diffable in git."
+      },
+      "chips": [
+        "› append-only JSONL",
+        "› 编辑引用 + 转录原文",
+        "› hash(编辑引用 + 前提) 去重"
+      ]
+    },
+    {
+      "title": {
+        "zh": "证伪编译成测试",
+        "en": "Refutation compiles into a test"
+      },
+      "body": {
+        "zh": "评审者点「证伪」，Preledger 立即在仓库里写出一个断言该前提的失败测试——前提确实为假时套件变红，修复代码后转绿。红色是证据，绿色是闭环。",
+        "en": "Click “refute” and Preledger immediately writes a failing test asserting the premise into the repo — the suite goes red while the premise is actually false, green again once the code is fixed. Red is evidence; green closes the loop."
+      },
+      "chips": [
+        "› Go 仓库 → go test 变红/转绿",
+        "› package.json 仓库 → vitest",
+        "› 无法机械化的前提 → TODO 占位"
+      ]
+    }
+  ],
+  "demo": {
+    "title": {
+      "zh": "真实录制的完整闭环",
+      "en": "The full loop, recorded"
+    },
+    "note": {
+      "zh": "真实录制（vhs docs/demo.tape），录制于 2026-10-20（go1.24.1 darwin/arm64）。样例仓库由 examples/demo/setup.sh 现场生成；为了在录制里复现，agent 的三次编辑以与 Claude Code 完全同构的 stdin 载荷直接喂给 preledger hook。以下输出逐字来自 docs/demo-results.json。",
+      "en": "Recorded with vhs (docs/demo.tape) on 2026-10-20 (go1.24.1 darwin/arm64). The sample repo is generated on the spot by examples/demo/setup.sh; to make the recording reproducible, the agent's three edits are fed to preledger hook as stdin payloads structurally identical to Claude Code's. Outputs below are verbatim from docs/demo-results.json."
+    },
+    "source": "https://github.com/SuperMarioYL/preledger/blob/main/docs/demo-results.json",
+    "steps": [
+      {
+        "label": {
+          "zh": "接入 hook",
+          "en": "Wire the hook"
+        },
+        "body": {
+          "zh": "在仓库根目录运行 preledger install：把 PostToolUse 钩子写入 .claude/settings.json，搭建 .preledger/ 台账目录。一次接线，之后 agent 照常工作。",
+          "en": "Run preledger install at the repo root: the PostToolUse hook is written into .claude/settings.json and the .preledger/ ledger directory is created. One-time wiring; the agent works as usual afterwards."
+        },
+        "image": "/assets/demo-0-light.svg",
+        "imageDark": "/assets/demo-0-dark.svg",
+        "output": "已接入 Claude Code hook：/tmp/plresults/demo/.claude/settings.json (PostToolUse: Edit|Write)\n台账目录：/tmp/plresults/demo/.preledger\n下一步：让 Claude Code 正常编辑，然后运行 preledger up 评审假设"
+      },
+      {
+        "label": {
+          "zh": "三次编辑自动入账",
+          "en": "Three edits, captured silently"
+        },
+        "body": {
+          "zh": "preledger hook 每次编辑运行一个子进程：读 stdin 载荷、解析转录、提取假设、追加台账，失败也以 0 退出，绝不阻塞编辑。演示中把与 Claude Code 完全同构的三段载荷（p1/p2/p3.json）直接喂给它；真实使用中由 Claude Code 在每次 Edit/Write 后自动调用。",
+          "en": "preledger hook runs one subprocess per edit: it reads the stdin payload, parses the transcript, extracts assumptions and appends the ledger, always exiting 0 — it never blocks an edit. In the recording the three payloads (p1/p2/p3.json), structurally identical to Claude Code's, are fed directly; in real use Claude Code invokes it automatically after each Edit/Write."
+        },
+        "image": "/assets/demo-1-light.svg",
+        "imageDark": "/assets/demo-1-dark.svg"
+      },
+      {
+        "label": {
+          "zh": "台账出现六条假设",
+          "en": "Six assumptions in the ledger"
+        },
+        "body": {
+          "zh": "每次编辑自带一条机械前提（Edit 假设待替换片段存在且唯一，Write 假设整文件重写）；启发式再命中缺失的配置、环境变量与 git 新路径。依据优先取 agent 编辑前的原话，没有转录时退回触发行的代码。",
+          "en": "Every edit contributes one mechanical premise (Edit assumes the replaced snippet exists uniquely; Write assumes a full rewrite); heuristics add the missing config, env var and new-path premises. The basis prefers the agent's own words before the edit, falling back to the triggering line."
+        },
+        "image": "/assets/demo-2-light.svg",
+        "imageDark": "/assets/demo-2-dark.svg",
+        "output": "- main.go 的现有内容中待替换片段存在且唯一：package main import \"fmt\" func main() { fmt.Println(\"sample service\") }\n - config.yaml 存在且含 server.port\n - main.go 的现有内容中待替换片段存在且唯一：func main() { fmt.Println(\"sample service on\", readPort()) }\n - .env 存在且含 API_TOKEN\n - README.md 将被整体重写，旧内容全部废弃\n - README.md 存在"
+      },
+      {
+        "label": {
+          "zh": "启动本地评审界面",
+          "en": "Open the local review UI"
+        },
+        "body": {
+          "zh": "preledger up 启动本地中文评审界面（默认自动打开浏览器；演示中用 --no-open）。fsnotify 保持实时：agent 继续编辑，界面跟着刷新。这是唯一的常驻进程。",
+          "en": "preledger up starts the local Chinese review UI (it opens the browser by default; the recording uses --no-open). fsnotify keeps it live: the agent keeps editing and the view follows. This is the only resident process."
+        },
+        "image": "/assets/demo-3-light.svg",
+        "imageDark": "/assets/demo-3-dark.svg",
+        "output": "台账：/tmp/plresults/demo/.preledger/ledger.jsonl（6 条假设）\n评审界面已启动：http://127.0.0.1:7830（Ctrl-C 退出）\n评审界面已关闭"
+      },
+      {
+        "label": {
+          "zh": "逐条证伪",
+          "en": "Refute one by one"
+        },
+        "body": {
+          "zh": "评审者按状态筛选，逐条查看每条假设与它的转录依据原文，点「证伪」（等价于界面的 POST /api/assumptions/{id}/refute）。Preledger 立即在仓库里写出断言该前提的失败测试。",
+          "en": "The reviewer filters by status, inspects each assumption against its transcript basis, and clicks “refute” (equivalent to the UI's POST /api/assumptions/{id}/refute). Preledger immediately writes a failing test asserting the premise into the repo."
+        },
+        "image": "/assets/demo-4-light.svg",
+        "imageDark": "/assets/demo-4-dark.svg",
+        "output": "证伪: config.yaml 存在且含 server.port\n失败测试: preledger_refute_d0cb1f3e9e449e41_test.go\n测试名: TestPreledgerAssumption_d0cb1f3e9e449e41"
+      },
+      {
+        "label": {
+          "zh": "套件变红",
+          "en": "The suite goes red"
+        },
+        "body": {
+          "zh": "go test ./... 失败：前提确实为假——config.yaml 不存在。红色是证据：被证伪的假设和它的依据原文都写在测试里。",
+          "en": "go test ./... fails: the premise really is false — config.yaml does not exist. Red is evidence: the refuted assumption and its verbatim basis are right there in the test."
+        },
+        "image": "/assets/demo-5-light.svg",
+        "imageDark": "/assets/demo-5-dark.svg",
+        "output": "--- FAIL: TestPreledgerAssumption_d0cb1f3e9e449e41 (0.00s)\n    preledger_refute_d0cb1f3e9e449e41_test.go:20: preledger 假设 d0cb1f3e9e449e41：前提「config.yaml 存在且含 server.port」未成立：config.yaml 应存在：open config.yaml: no such file or directory\nFAIL\nFAIL\tsample\t0.341s\nFAIL"
+      },
+      {
+        "label": {
+          "zh": "修复转绿",
+          "en": "Fix, then green"
+        },
+        "body": {
+          "zh": "补上 config.yaml（server.port: 8080）再跑一次：测试通过。修复代码（或让 agent 修）后转绿——被证伪的假设完成了闭环，可以合并了。",
+          "en": "Add config.yaml (server.port: 8080) and run again: the test passes. Green after the fix (by you or the agent) — the refuted assumption has closed the loop, ready to merge."
+        },
+        "image": "/assets/demo-6-light.svg",
+        "imageDark": "/assets/demo-6-dark.svg",
+        "output": "ok  \tsample\t0.137s"
+      }
+    ]
+  },
+  "quickstart": {
+    "title": {
+      "zh": "快速开始",
+      "en": "Get started"
+    },
+    "body": {
+      "zh": "前置：Go 1.24+，一个使用 Claude Code 的仓库。约 1 分钟。",
+      "en": "Prerequisites: Go 1.24+ and a repo where you use Claude Code. About one minute."
+    },
+    "steps": [
+      {
+        "title": {
+          "zh": "安装单一二进制",
+          "en": "Install the single binary"
+        },
+        "code": "go install github.com/SuperMarioYL/preledger@latest"
+      },
+      {
+        "title": {
+          "zh": "在仓库根目录接线",
+          "en": "Wire it at the repo root"
+        },
+        "code": "cd your-repo\npreledger install"
+      },
+      {
+        "title": {
+          "zh": "让 Claude Code 正常编辑",
+          "en": "Let Claude Code work as usual"
+        },
+        "code": "# 每次 Edit/Write 后，假设自动记入 .preledger/ledger.jsonl"
+      },
+      {
+        "title": {
+          "zh": "评审",
+          "en": "Review"
+        },
+        "code": "preledger up          # 浏览器自动打开 http://127.0.0.1:7830"
+      },
+      {
+        "title": {
+          "zh": "证伪并验证",
+          "en": "Refute and verify"
+        },
+        "code": "go test ./...         # 被证伪且确实为假的前提 → 套件变红\n# 修复代码（或让 agent 修），再跑一次 → 转绿"
+      }
+    ]
+  },
+  "limitations": [
+    {
+      "zh": "捕获是启发式而非读心：只覆盖新依赖、缺失的配置/环境变量、git 判定的新路径三类前提，外加每次编辑自带的机械前提；其余前提需要评审者人工补充。",
+      "en": "Capture is heuristic, not mind-reading: it covers new dependencies, missing config/env vars and git-new paths, plus each edit's mechanical premise; everything else is left for the reviewer to add."
+    },
+    {
+      "zh": "“存在且含”按字面子串检查（见 internal/refute 的语法说明）；如需结构化 YAML/JSON 校验，等待后续版本。",
+      "en": "“exists and contains” checks literal substrings (see internal/refute); structured YAML/JSON validation awaits a later version."
+    },
+    {
+      "zh": "依赖前提的模块名按主机形态推测（github.com 取三段，其余两段），建议以 go mod tidy 的结果为准。",
+      "en": "Module names in dependency premises are guessed from the host shape (three segments for github.com, two otherwise); go mod tidy remains the source of truth."
+    },
+    {
+      "zh": "LLM triage 为可选项：未配置 PRELEDGER_TRIAGE_PROVIDER 时完全离线；配置后调用 DeepSeek/GLM 的 OpenAI 兼容端点，失败时保留全部候选。",
+      "en": "LLM triage is optional: fully offline unless PRELEDGER_TRIAGE_PROVIDER is set; when set it calls DeepSeek/GLM OpenAI-compatible endpoints and keeps all candidates on failure."
+    },
+    {
+      "zh": "仅支持 Claude Code 的 hook 与转录格式（MCP、其他代理适配器不在 v0.1 范围）。",
+      "en": "Only Claude Code's hook and transcript formats are supported (MCP and other agent adapters are out of scope for v0.1)."
+    }
+  ],
+  "scene": {
+    "kind": "neon-graph",
+    "caption": {
+      "zh": "示意场景：编辑事件汇入假设台账，评审者在本地界面逐条证伪，证伪编译成测试。",
+      "en": "Illustrative scene: edits flow into the assumption ledger, the reviewer refutes entries in the local UI, and refutations compile into tests."
+    },
+    "fallback": "/assets/scene-dark.svg",
+    "fallbackLight": "/assets/scene-light.svg"
+  },
+  "story": {
+    "intro": {
+      "title": {
+        "zh": "看得到「改了什么」，看不到「想当然认为什么」",
+        "en": "You see what changed, not what it assumed"
+      },
+      "body": {
+        "zh": "合并一个 AI 写的 diff 时，评审者看得到「改了什么」，看不到它「想当然认为什么」。会话转录记录的是动作和事后的完成声明；PR 描述是工作完成之后、由同一个想被合并的 agent 写出来的，天然只会说「做了什么」。Preledger 把「前提」变成一等公民，并且在编辑发生的那一刻记录它。",
+        "en": "When merging an AI-written diff, the reviewer sees what changed but not what it took for granted. Session transcripts record actions and after-the-fact completion claims; the PR description is written after the work, by the same agent that wants to be merged, and naturally only says what was done. Preledger makes premises first-class and records them at the moment the edit happens."
+      }
+    },
+    "sections": [
+      {
+        "title": {
+          "zh": "agent 照常编辑，假设自动入账",
+          "en": "The agent edits as usual; assumptions land automatically"
+        },
+        "body": {
+          "zh": "agent 侧一次性 install 后照常编辑，PostToolUse 自动记录；台账作为共同事实源；评审者合并前 preledger up 逐条确认或证伪，证伪生成失败测试，修复后转绿再合并。捕获完全离线：规则找的是「编辑对仓库做出的、仓库还回答不了的前提」，而不是猜测意图。",
+          "en": "After a one-time install, the agent edits as usual while PostToolUse records automatically; the ledger is the shared source of truth; before merging, the reviewer confirms or refutes entries one by one in preledger up — a refutation generates a failing test, the suite goes red, the fix turns it green, then merge. Capture is fully offline: the rules look for premises the edit makes that the repo cannot yet answer, not for intent."
+        },
+        "image": {
+          "light": "/assets/process-light.svg",
+          "dark": "/assets/process-dark.svg",
+          "alt": {
+            "zh": "流程：agent 侧一次性 install 后照常编辑，PostToolUse 自动记录；台账作为共同事实源；评审者合并前 preledger up 逐条确认或证伪，证伪生成失败测试，修复后转绿再合并",
+            "en": "Flow: one-time install, edits as usual with PostToolUse recording; the ledger as the shared source of truth; review before merge, refutation compiles to a failing test, fix turns it green"
+          }
+        }
+      },
+      {
+        "title": {
+          "zh": "一个二进制、三个子命令",
+          "en": "One binary, three subcommands"
+        },
+        "body": {
+          "zh": "preledger install（一次性）把 PostToolUse 钩子写入 .claude/settings.json，搭建 .preledger/；preledger hook（每次编辑一个子进程）解析转录、提取假设、追加台账，失败也以 0 退出；preledger up（唯一的常驻进程）提供本地评审界面，fsnotify 保持实时，证伪写回仓库。",
+          "en": "preledger install (once) writes the PostToolUse hook into .claude/settings.json and sets up .preledger/; preledger hook (one subprocess per edit) parses the transcript, extracts assumptions and appends the ledger, always exiting 0; preledger up (the only resident process) serves the local review UI, kept live by fsnotify, writing refutations back into the repo."
+        },
+        "image": {
+          "light": "/assets/architecture-light.svg",
+          "dark": "/assets/architecture-dark.svg",
+          "alt": {
+            "zh": "架构：Claude Code 经 PostToolUse 钩子调用 preledger hook，内部按机械前提、转录引文、启发式三步提取，写入 .preledger/ledger.jsonl；preledger up 以 go:embed 提供本地中文界面，fsnotify 保持实时；证伪经 internal/refute 编译为仓库内的 Go/vitest 测试",
+            "en": "Architecture: Claude Code calls preledger hook via PostToolUse; extraction proceeds through mechanical premise, transcript quotes and heuristics into .preledger/ledger.jsonl; preledger up serves the embedded local UI kept live by fsnotify; refutations compile through internal/refute into in-repo Go/vitest tests"
+          }
+        }
+      },
+      {
+        "title": {
+          "zh": "不替代任何环节，补上「前提」这个位置",
+          "en": "Replaces nothing; fills the premise gap"
+        },
+        "body": {
+          "zh": "agent 写的 PR 描述回答「做了什么」，在工作完成之后；会话回放校验「修好了」是否属实，在会话结束之后；PR 评审机器人给通用改进意见，在推送之后。Preledger 回答的是「这次编辑想当然认为什么」——在编辑发生的那一刻。",
+          "en": "The agent's PR description answers “what was done”, after the work; session replay checks whether “fixed” was true, after the session; PR review bots give generic feedback, after the push. Preledger answers “what did this edit take for granted” — at the moment the edit happens."
+        },
+        "image": {
+          "light": "/assets/integrations-light.svg",
+          "dark": "/assets/integrations-dark.svg",
+          "alt": {
+            "zh": "集成面：以 .preledger/ledger.jsonl 为中心，实线连接 Claude Code hook、本地评审界面、Go 测试与 vitest；虚线为可选的 DeepSeek/GLM 分诊与随仓库走的 git",
+            "en": "Integration surface: .preledger/ledger.jsonl at the center, solid lines to the Claude Code hook, the local review UI, Go tests and vitest; dashed lines for optional DeepSeek/GLM triage and git travelling with the repo"
+          }
+        }
+      }
+    ],
+    "details": [
+      {
+        "title": {
+          "zh": "启发式捕获了什么",
+          "en": "What the heuristics capture"
+        },
+        "body": {
+          "zh": "三类「编辑做出、而仓库还回答不了」的前提：新依赖（go.mod / package.json 未声明的模块）、缺失的配置 / 环境变量（编辑读取的配置文件不存在、引用的键搜不到）、仓库中不存在的新路径（Write 落在 git 判定的新文件上）。台账按 hash(编辑引用 + 前提) 去重，确认或证伪都通过追加新记录更新状态，文件永远 append-only。",
+          "en": "Three classes of premises an edit makes that the repo cannot yet answer: new dependencies (modules undeclared in go.mod / package.json), missing config / env vars (a config file the edit reads does not exist, a referenced key is nowhere), and new paths (Write landing on a git-new file). Entries dedupe by hash(edit reference + premise); confirm and refute both append new records — the file stays append-only."
+        }
+      },
+      {
+        "title": {
+          "zh": "证伪编译",
+          "en": "Refutation compilation"
+        },
+        "body": {
+          "zh": "被证伪的前提按语法编译成断言：「<path> 存在」编译成 os.Stat / existsSync；「<path> 存在且含 <key>」读文件检查字面子串；Edit/Write 的机械前提编译成对片段唯一性 / 包含性的检查。无法机械化验证的前提编译成 TODO 占位（t.Skip / it.todo），把前提留作注释。",
+          "en": "Refuted premises compile by grammar into assertions: “<path> exists” becomes os.Stat / existsSync; “<path> exists and contains <key>” reads the file and checks a literal substring; the mechanical Edit/Write premises compile into uniqueness / containment checks. Premises that cannot be mechanically verified compile into TODO placeholders (t.Skip / it.todo), keeping the premise as a comment."
+        }
+      },
+      {
+        "title": {
+          "zh": "配置",
+          "en": "Configuration"
+        },
+        "body": {
+          "zh": "全部可选，默认零配置即可运行：PRELEDGER_PORT 改评审界面端口（默认 7830，up --port 可覆盖）；PRELEDGER_TRIAGE_PROVIDER 与 PRELEDGER_TRIAGE_API_KEY 启用可选的 DeepSeek/GLM 分诊；PRELEDGER_NO_OPEN 让 up 不自动打开浏览器。",
+          "en": "All optional; zero-config by default: PRELEDGER_PORT changes the review UI port (default 7830, overridable via up --port); PRELEDGER_TRIAGE_PROVIDER and PRELEDGER_TRIAGE_API_KEY enable the optional DeepSeek/GLM triage; PRELEDGER_NO_OPEN stops up from opening the browser."
+        },
+        "code": "export PRELEDGER_TRIAGE_PROVIDER=deepseek"
+      }
+    ]
+  },
+  "cta": {
+    "headline": {
+      "zh": "让每次编辑交代它的假设，在它发生的那一刻",
+      "en": "Make every edit declare its assumptions, the moment it happens"
+    },
+    "sub": {
+      "zh": "preledger install 一次接线；合并前逐条证伪；证伪即测试，红色是证据，绿色是闭环。",
+      "en": "Wire it once with preledger install; refute entries one by one before merging; every refutation becomes a test — red is evidence, green closes the loop."
+    },
+    "button": {
+      "zh": "在 GitHub 上开始",
+      "en": "Get started on GitHub"
+    }
+  },
+  "footer": {
+    "tag": {
+      "zh": "MIT © 2026 SuperMarioYL · 免费开源 · v0.1 不含任何付费功能",
+      "en": "MIT © 2026 SuperMarioYL · free and open source · no paid features in v0.1"
+    }
+  }
 }

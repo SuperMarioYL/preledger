@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="130" viewBox="0 0 920 130" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8" role="img" aria-labelledby="dm6-d-t dm6-d-d"><title id="dm6-d-t">录制演示第 7 步</title><desc id="dm6-d-d">修复：创建 config.yaml（server.port: 8080）后 go test ./... —— 命令与输出逐字来自 docs/demo-results.json</desc>
+<style>.dm6-dm{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}</style>
+<rect width="920" height="130" rx="14" fill="#0a151d" stroke="#173541" stroke-width="1"/>
+<rect x="0" y="0" width="920" height="40" rx="14" fill="#0c151f"/><rect x="0" y="26" width="920" height="14" fill="#0c151f"/>
+<circle cx="22" cy="20" r="5.5" fill="#56c9e6" opacity="0.85"/><circle cx="40" cy="20" r="5.5" fill="#6a8be7" opacity="0.85"/><circle cx="58" cy="20" r="5.5" fill="#acf6ea" opacity="0.85"/>
+<text x="80" y="24" font-size="11.5" fill="#95b3c4">Preledger · 7 / 7</text>
+<text x="28" y="66" class="dm6-dm" font-size="12.5" fill="#56c9e6">$ </text><text x="46" y="66" class="dm6-dm" font-size="12.5" fill="#eefdfb">修复：创建 config.yaml（server.port: 8080）后 go test ./...</text>
+<text x="28" y="93" class="dm6-dm" font-size="12.5" fill="#95b3c4">ok      sample    0.137s</text>
+</svg>

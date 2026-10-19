@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="225" viewBox="0 0 920 225" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8" role="img" aria-labelledby="dm5-l-t dm5-l-d"><title id="dm5-l-t">录制演示第 6 步</title><desc id="dm5-l-d">go test ./... —— 命令与输出逐字来自 docs/demo-results.json</desc>
+<style>.dm5-lm{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}</style>
+<rect width="920" height="225" rx="14" fill="#f3fbfd" stroke="#cbeef7" stroke-width="1"/>
+<rect x="0" y="0" width="920" height="40" rx="14" fill="#f7fcfe"/><rect x="0" y="26" width="920" height="14" fill="#f7fcfe"/>
+<circle cx="22" cy="20" r="5.5" fill="#357c8e" opacity="0.85"/><circle cx="40" cy="20" r="5.5" fill="#5670bb" opacity="0.85"/><circle cx="58" cy="20" r="5.5" fill="#567a75" opacity="0.85"/>
+<text x="80" y="24" font-size="11.5" fill="#557588">Preledger · 6 / 7</text>
+<text x="28" y="66" class="dm5-lm" font-size="12.5" fill="#357c8e">$ </text><text x="46" y="66" class="dm5-lm" font-size="12.5" fill="#132630">go test ./...</text>
+<text x="28" y="93" class="dm5-lm" font-size="12.5" fill="#557588">--- FAIL: TestPreledgerAssumption_d0cb1f3e9e449e41 (0.00s)</text>
+<text x="28" y="112" class="dm5-lm" font-size="12.5" fill="#557588">    preledger_refute_d0cb1f3e9e449e41_test.go:20: preledger 假设 d0cb1f3e9e449e41：前提「config.yaml 存在且含 se</text>
+<text x="28" y="131" class="dm5-lm" font-size="12.5" fill="#557588">rver.port」未成立：config.yaml 应存在：open config.yaml: no such file or directory</text>
+<text x="28" y="150" class="dm5-lm" font-size="12.5" fill="#557588">FAIL</text>
+<text x="28" y="169" class="dm5-lm" font-size="12.5" fill="#557588">FAIL    sample    0.341s</text>
+<text x="28" y="188" class="dm5-lm" font-size="12.5" fill="#557588">FAIL</text>
+</svg>

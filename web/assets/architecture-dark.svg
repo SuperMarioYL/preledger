@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-label="Preledger 架构：hook 捕获、台账、评审界面与证伪编译" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8">
+  <defs>
+    <style>
+    text { font-family: -apple-system,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; }
+    .mono { font-family: ui-monospace,'SF Mono',Menlo,Consolas,'Cascadia Mono',monospace; }
+    @media (prefers-reduced-motion: no-preference) {
+      .flow { stroke-dasharray: 5 7; animation: plflow 1.4s linear infinite; }
+      .flow.slow { animation-duration: 2.6s; }
+      @keyframes plflow { to { stroke-dashoffset: -24; } }
+      .breathe { animation: plbreathe 3.2s ease-in-out infinite; }
+      .breathe.d1 { animation-delay: -1.1s; } .breathe.d2 { animation-delay: -2.2s; }
+      @keyframes plbreathe { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+      .drift { animation: pldrift 5s ease-in-out infinite; }
+      .drift.d1 { animation-delay: -1.6s; } .drift.d2 { animation-delay: -3.3s; }
+      @keyframes pldrift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      .orbit { animation: plorbit 46s linear infinite; transform-origin: 480.0 280.0; }
+      .orbit.rev { animation-duration: 70s; animation-direction: reverse; }
+      @keyframes plorbit { to { transform: rotate(360deg); } }
+      .travel { animation: pltravel 3.4s linear infinite; }
+      .travel.t2 { animation-delay: -1.1s; } .travel.t3 { animation-delay: -2.2s; } .travel.t4 { animation-delay: -0.6s; } .travel.t5 { animation-delay: -1.7s; }
+      @keyframes pltravel {
+        0% { offset-distance: 0%; opacity: 0; }
+        8% { opacity: 1; } 92% { opacity: 1; }
+        100% { offset-distance: 100%; opacity: 0; }
+      }
+      .glowpulse { animation: plglow 4s ease-in-out infinite; }
+      @keyframes plglow { 0%,100% { opacity: .5; } 50% { opacity: .95; } }
+    }
+
+    </style>
+    <filter id="softglow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="lineglow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="bgGlow" cx="62%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#56c9e6" stop-opacity="0.16"/>
+      <stop offset="55%" stop-color="#6a8be7" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#050b12" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#56c9e6"/>
+      <stop offset="100%" stop-color="#6a8be7"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c151f"/>
+      <stop offset="100%" stop-color="#050b12"/>
+    </linearGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#173541" stroke-opacity="0.5" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="560" fill="#050b12"/>
+  <rect width="960" height="560" fill="url(#bgGlow)"/>
+<rect width="960" height="560" fill="url(#grid)" opacity="0.35"/>
+<text x="64" y="60" font-size="20" fill="#eefdfb" text-anchor="start" font-weight="700">Architecture — 单二进制，三个子命令，一个常驻进程</text>
+<text x="64" y="84" font-size="13" fill="#95b3c4" text-anchor="start">capture（hook 子进程） · review（up 常驻） · refute（写回仓库）</text>
+<line x1="480" y1="104" x2="480" y2="536" stroke="#173541" stroke-width="1" stroke-dasharray="3 6" opacity="0.8"/>
+<rect x="64" y="116" width="220" height="60" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4"/>
+<text x="84" y="142" font-size="16" fill="#eefdfb" text-anchor="start" font-weight="600" class="mono">Claude Code</text>
+<text x="84" y="162" font-size="12.5" fill="#95b3c4" text-anchor="start">agent 照常编辑</text>
+<text x="296" y="142" font-size="11.5" fill="#95b3c4" text-anchor="start" class="mono">PostToolUse: Edit|Write</text>
+<text x="296" y="158" font-size="11.5" fill="#95b3c4" text-anchor="start" class="mono">.claude/settings.json</text>
+<path d="M174 176 V 216" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="64" y="216" width="220" height="60" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4"/>
+<text x="84" y="242" font-size="16" fill="#eefdfb" text-anchor="start" font-weight="600" class="mono">preledger hook</text>
+<text x="84" y="262" font-size="12.5" fill="#95b3c4" text-anchor="start">stdin 载荷 → 解析</text>
+<path d="M174 276 V 316" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="64" y="316" width="300" height="38" rx="10" fill="#050b12" stroke="#173541" stroke-width="1.4"/>
+<text x="80" y="340" font-size="13" fill="#eefdfb" text-anchor="start" class="mono">internal/hook — 机械前提</text>
+<rect x="64" y="362" width="300" height="38" rx="10" fill="#050b12" stroke="#173541" stroke-width="1.4"/>
+<text x="80" y="386" font-size="13" fill="#eefdfb" text-anchor="start" class="mono">internal/transcript — 编辑前引文</text>
+<rect x="64" y="408" width="300" height="38" rx="10" fill="#050b12" stroke="#173541" stroke-width="1.4"/>
+<text x="80" y="432" font-size="13" fill="#eefdfb" text-anchor="start" class="mono">internal/extract — 启发式前提</text>
+<path d="M174 446 V 454" fill="none" stroke="#173541" stroke-width="1.6"/>
+<rect x="64" y="454" width="300" height="38" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4" stroke-dasharray="4 5"/>
+<text x="80" y="478" font-size="13" fill="#95b3c4" text-anchor="start" class="mono">LLM triage — DeepSeek / GLM（可选）</text>
+<text x="372" y="341" font-size="11.5" fill="#95b3c4" text-anchor="start">规则优先，离线可用</text>
+<path d="M174 492 V 513 H 340" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="340" y="486" width="280" height="54" rx="10" fill="#0c151f" stroke="#56c9e6" stroke-width="1.6"/>
+<text x="480" y="509" font-size="15" fill="#eefdfb" text-anchor="middle" font-weight="600" class="mono">.preledger/ledger.jsonl</text>
+<text x="480" y="529" font-size="12" fill="#95b3c4" text-anchor="middle">append-only JSONL · 随仓库走</text>
+<rect x="560" y="116" width="220" height="60" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4"/>
+<text x="580" y="142" font-size="16" fill="#eefdfb" text-anchor="start" font-weight="600" class="mono">preledger up</text>
+<text x="580" y="162" font-size="12.5" fill="#95b3c4" text-anchor="start">本地服务 · go:embed · fsnotify</text>
+<path d="M670 176 V 216" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="560" y="216" width="220" height="60" rx="10" fill="#0c151f" stroke="#56c9e6" stroke-width="1.5"/>
+<text x="670" y="242" font-size="16" fill="#eefdfb" text-anchor="middle" font-weight="600" class="mono">127.0.0.1:7830</text>
+<text x="670" y="262" font-size="12.5" fill="#95b3c4" text-anchor="middle">中文评审界面 · 确认 / 证伪</text>
+<path d="M670 276 V 316" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="560" y="316" width="220" height="60" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4"/>
+<text x="580" y="342" font-size="16" fill="#eefdfb" text-anchor="start" font-weight="600" class="mono">internal/refute</text>
+<text x="580" y="362" font-size="12.5" fill="#95b3c4" text-anchor="start">前提语法 → 可执行测试</text>
+<path d="M670 376 V 416" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<rect x="560" y="416" width="220" height="60" rx="10" fill="#0c151f" stroke="#173541" stroke-width="1.4"/>
+<text x="580" y="442" font-size="14.5" fill="#eefdfb" text-anchor="start" font-weight="600" class="mono">preledger_refute_*_test.go</text>
+<text x="580" y="462" font-size="12.5" fill="#95b3c4" text-anchor="start" class="mono">go test ./... · vitest run</text>
+<path d="M670 476 V 513 H 620" fill="none" stroke="url(#edgeGrad)" stroke-width="1.6" class="flow"/>
+<text x="700" y="500" font-size="11.5" fill="#95b3c4" text-anchor="start">写回仓库，先红后绿</text>
+<path d="M480 486 C 480 330 560 180 560 160" fill="none" stroke="#173541" stroke-width="1.6" class="flow"/>
+<text x="516" y="320" font-size="12" fill="#56c9e6" text-anchor="start" class="mono">fsnotify</text>
+</svg>

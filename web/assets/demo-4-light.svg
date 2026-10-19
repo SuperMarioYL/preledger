@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="168" viewBox="0 0 920 168" data-palette="56c9e6-6a8be7-acf6ea-e0897b892ae8" role="img" aria-labelledby="dm4-l-t dm4-l-d"><title id="dm4-l-t">录制演示第 5 步</title><desc id="dm4-l-d">评审界面点击「证伪」（等价于界面的 POST /api/assumptions/{id}/refute） —— 命令与输出逐字来自 docs/demo-results.json</desc>
+<style>.dm4-lm{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace}</style>
+<rect width="920" height="168" rx="14" fill="#f3fbfd" stroke="#cbeef7" stroke-width="1"/>
+<rect x="0" y="0" width="920" height="40" rx="14" fill="#f7fcfe"/><rect x="0" y="26" width="920" height="14" fill="#f7fcfe"/>
+<circle cx="22" cy="20" r="5.5" fill="#357c8e" opacity="0.85"/><circle cx="40" cy="20" r="5.5" fill="#5670bb" opacity="0.85"/><circle cx="58" cy="20" r="5.5" fill="#567a75" opacity="0.85"/>
+<text x="80" y="24" font-size="11.5" fill="#557588">Preledger · 5 / 7</text>
+<text x="28" y="66" class="dm4-lm" font-size="12.5" fill="#357c8e">$ </text><text x="46" y="66" class="dm4-lm" font-size="12.5" fill="#132630">评审界面点击「证伪」（等价于界面的 POST /api/assumptions/{id}/refute）</text>
+<text x="28" y="93" class="dm4-lm" font-size="12.5" fill="#557588">证伪: config.yaml 存在且含 server.port</text>
+<text x="28" y="112" class="dm4-lm" font-size="12.5" fill="#557588">失败测试: preledger_refute_d0cb1f3e9e449e41_test.go</text>
+<text x="28" y="131" class="dm4-lm" font-size="12.5" fill="#557588">测试名: TestPreledgerAssumption_d0cb1f3e9e449e41</text>
+</svg>
