@@ -1,5 +1,6 @@
 # compiled binary and release artifacts
 /preledger
+/bin/
 /dist/
 
 # editor and OS noise
