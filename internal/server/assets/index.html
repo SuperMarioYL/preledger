@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preledger 假设台账</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #151b23;
+    --panel-raised: #1a212b;
+    --line: #26303d;
+    --text: #e6ebf2;
+    --muted: #8b96a5;
+    --accent: #4f8cff;
+    --ok: #3fb950;
+    --warn: #d29922;
+    --err: #f85149;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 20px 0;
+  }
+  .head-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .brand {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .brand small { color: var(--muted); font-weight: 400; margin-left: 6px; }
+  .repo { color: var(--muted); font-size: 13px; }
+  .counts { margin-left: auto; display: flex; gap: 10px; font-size: 13px; }
+  .counts b { font-weight: 600; }
+  .counts .c-open b { color: var(--warn); }
+  .counts .c-confirmed b { color: var(--ok); }
+  .counts .c-refuted b { color: var(--err); }
+  nav {
+    display: flex;
+    gap: 6px;
+    max-width: 880px;
+    margin: 10px auto 0;
+    padding-bottom: 0;
+  }
+  nav button {
+    appearance: none;
+    background: none;
+    border: 1px solid transparent;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    padding: 6px 10px;
+  }
+  nav button:hover { color: var(--text); }
+  nav button.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 18px 20px 80px; }
+  .group { margin-bottom: 22px; }
+  .group-head {
+    color: var(--muted);
+    font-size: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .group-head code {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .card.refuted { border-left: 3px solid var(--err); }
+  .card.confirmed { border-left: 3px solid var(--ok); }
+  .card.open { border-left: 3px solid var(--warn); }
+  .statement { font-size: 15px; font-weight: 600; margin: 2px 0 8px; }
+  .basis {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    color: var(--muted);
+    font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    margin: 0 0 10px;
+    max-height: 120px;
+    overflow: auto;
+    padding: 8px 10px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .refutation {
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-bottom: 10px;
+  }
+  .refutation code { color: var(--err); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .badge {
+    border-radius: 999px;
+    font-size: 12px;
+    padding: 1px 10px;
+    border: 1px solid;
+  }
+  .badge.open { color: var(--warn); border-color: var(--warn); }
+  .badge.confirmed { color: var(--ok); border-color: var(--ok); }
+  .badge.refuted { color: var(--err); border-color: var(--err); }
+  .hint { color: var(--muted); font-size: 12px; margin-left: 4px; }
+  .spacer { flex: 1; }
+  button.action {
+    appearance: none;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    padding: 4px 14px;
+  }
+  button.action:hover { border-color: var(--accent); }
+  button.action.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.action.danger:hover { border-color: var(--err); color: var(--err); }
+  button.action:disabled { opacity: 0.5; cursor: default; }
+  .empty {
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    color: var(--muted);
+    margin-top: 30px;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .empty code {
+    background: var(--panel);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+  #toast {
+    bottom: 24px;
+    display: none;
+    left: 50%;
+    max-width: 90vw;
+    position: fixed;
+    transform: translateX(-50%);
+  }
+  #toast.show { display: block; }
+  #toast .inner {
+    background: var(--panel-raised);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgb(0 0 0 / 0.45);
+    color: var(--text);
+    font-size: 13px;
+    padding: 10px 16px;
+    white-space: pre-wrap;
+  }
+  footer {
+    bottom: 0;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 10px 20px;
+    position: fixed;
+    right: 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="head-row">
+    <div class="brand">Preledger<small>假设台账</small></div>
+    <div class="repo" id="repo"></div>
+    <div class="counts">
+      <span class="c-open">待定 <b id="count-open">0</b></span>
+      <span class="c-confirmed">已确认 <b id="count-confirmed">0</b></span>
+      <span class="c-refuted">已证伪 <b id="count-refuted">0</b></span>
+    </div>
+  </div>
+  <nav id="filters">
+    <button data-filter="all">全部</button>
+    <button data-filter="open" class="active">待定</button>
+    <button data-filter="confirmed">已确认</button>
+    <button data-filter="refuted">已证伪</button>
+  </nav>
+</header>
+<main>
+  <div id="list"></div>
+  <div class="empty" id="empty" hidden>
+    台账还没有记录。先在仓库里运行 <code>preledger install</code>，
+    让 Claude Code 正常编辑；每次编辑背后的未验证假设会自动出现在这里。
+  </div>
+</main>
+<div id="toast"><div class="inner" id="toast-text"></div></div>
+<footer>本地评审界面 · 仅监听 127.0.0.1</footer>
+<script src="/app.js"></script>
+</body>
+</html>
