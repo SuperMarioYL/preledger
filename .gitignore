@@ -1,0 +1,23 @@
+# compiled binary and release artifacts
+/preledger
+/dist/
+
+# editor and OS noise
+.DS_Store
+*.swp
+
+# local environment files
+.env
+.env.*
+
+# build scratch
+PUBLISH_BLOCKED.md
+BUILD_SETUP_NEXT_STEPS.md
+.spawn.*
+.builder_*
+.build_metadata*
+.stage_*
+
+# assistant session files
+.claude/
+CLAUDE.md
