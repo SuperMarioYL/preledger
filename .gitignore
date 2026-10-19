@@ -17,6 +17,7 @@ BUILD_SETUP_NEXT_STEPS.md
 .builder_*
 .build_metadata*
 .stage_*
+_build_ctx.json
 
 # assistant session files
 .claude/
